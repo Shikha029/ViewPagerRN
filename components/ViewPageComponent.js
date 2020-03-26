@@ -26,8 +26,9 @@ const ViewPagerComponent = () => {
       if (res.status === 200) {
         let movieData = res.data.results;
         if (movieData.length) {
-          setMovies(movieData);
-          getMultipleApiData(movieData, 0);
+          const sortedMovies = movieData.sort((movie1, movie2) => new Date(movie1.release_date) - new Date(movie2.release_date));
+          setMovies(sortedMovies);
+          getMultipleApiData(sortedMovies, 0);
         }
       }
     })
@@ -56,7 +57,6 @@ const ViewPagerComponent = () => {
       });
       let currentCharacters = characters;
       currentCharacters[index] = characterItems;
-      console.log(currentCharacters);
       setCharacters(currentCharacters);
       setCharactersLoading(false);
     })).catch(errors => {
@@ -74,7 +74,6 @@ const ViewPagerComponent = () => {
       });
       let currentPlanets = planets;
       currentPlanets[index] = planetItems;
-      console.log(currentPlanets);
       setPlanets(currentPlanets);
       setPlanetsLoading(false);
     })).catch(errors => {
@@ -92,7 +91,6 @@ const ViewPagerComponent = () => {
       });
       let currentStarships = starships;
       currentStarships[index] = starshipItems;
-      console.log(currentStarships);
       setStarships(currentStarships);
       setStarshipsLoading(false);
     })).catch(errors => {
@@ -133,8 +131,8 @@ const ViewPagerComponent = () => {
             onPageSelected={onPageSelected}>
             {
               movies.map((movie, index) => (
-                <ScrollView contentContainerStyle={styles.growflex}>
-                <View style={styles.pageContainer} key={index}>
+                <ScrollView contentContainerStyle={styles.growflex} key={index}>
+                <View style={styles.pageContainer}>
                   <View style={styles.infoContainer}>
                     <Text style={styles.highlightLabel}>Title: </Text>
                     <Text style={styles.infoLabel}>{movie.title}</Text>
